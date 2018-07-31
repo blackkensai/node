@@ -1,0 +1,1 @@
+gcc -o a.out test.cc -Isrc -Ideps/v8 -Ideps/v8/src -L. -lnode && ./a.out
