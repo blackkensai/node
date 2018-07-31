@@ -1,1 +1,1 @@
-gcc -o a.out test.cc -Isrc -Ideps/v8 -Ideps/v8/src -L. -lnode && ./a.out
+gcc -o a.out test.cc -Isrc -Ideps/v8 -Ideps/v8/src -L. -lnode && LD_LIBRARY_PATH=out/Release/lib.target ./a.out
