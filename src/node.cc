@@ -130,6 +130,8 @@ extern char **environ;
   NODE_BUILTIN_MODULES(V)
 #undef V
 
+extern void _register_atest();
+
 namespace node {
 
 using v8::Array;
@@ -4554,6 +4556,10 @@ void Init(int* argc,
 
   // Register built-in modules
   node::RegisterBuiltinModules();
+  // _register_atest();
+  #define V(modname) _register_##modname();
+  V(atest);
+#undef V
 
   // Make inherited handles noninheritable.
   uv_disable_stdio_inheritance();
@@ -4954,6 +4960,12 @@ NODE_EXTERN int node_embed_execute(const char * script) {
   int exec_argc;
   const char** exec_argv;
   node::Init(&argc, const_cast<const char**>(argv), &exec_argc, &exec_argv);
+
+  // TODO init modules here.
+// #define V(modname) _register_##modname();
+  // V(atest);
+// #undef V
+  // _register_atest();
 
   node::v8_platform.Initialize(node::v8_thread_pool_size, uv_default_loop());
   node::V8::Initialize();
