@@ -369,7 +369,8 @@
         # node.gyp is added to the project by default.
         'common.gypi',
         '<(SHARED_INTERMEDIATE_DIR)/node_javascript.cc',
-        'src/android/node-android.cc'
+        'src/android/node-android.cc',
+        'src/android/node-embed-test.cc',
       ],
 
       'variables': {

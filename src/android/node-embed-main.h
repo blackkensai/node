@@ -4,7 +4,8 @@
 
 
 // extern int v8_thread_pool_size;
-extern void _register_atest();
+extern void _register_embedtest();
+extern void _register_android();
 // extern void PlatformInit();
 using namespace node;
 
@@ -25,7 +26,8 @@ NODE_EXTERN int node_embed_execute(const char * script) {
 
   // TODO init modules here.
 #define V(modname) _register_##modname();
-  V(atest);
+  V(embedtest);
+  V(android);
 #undef V
   // _register_atest();
 
