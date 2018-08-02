@@ -260,6 +260,8 @@
 
       'include_dirs': [
         'src',
+        '$(JAVA_HOME)/include',
+        '$(JAVA_HOME)/include/linux',
         '<(SHARED_INTERMEDIATE_DIR)' # for node_natives.h
       ],
 

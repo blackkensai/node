@@ -1,6 +1,6 @@
 #include "node-android.h"
 #include <uv.h>
-// #include "jni.h"
+#include "jni.h"
 #include "node.h"
 #include "node_buffer.h"
 #include "node_internals.h"
