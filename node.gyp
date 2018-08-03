@@ -373,6 +373,7 @@
         '<(SHARED_INTERMEDIATE_DIR)/node_javascript.cc',
         'src/android/node-android.cc',
         'src/android/node-embed-test.cc',
+        'src/android/node-jni-wrapper.cc',
       ],
 
       'variables': {
