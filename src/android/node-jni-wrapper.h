@@ -21,6 +21,7 @@ public:
   JniWrapper(v8::Isolate *isolate, JNIEnv *env, jobject object);
   ~JniWrapper();
   static Local<Object> CreateJSObject(v8::Isolate* isolate, JNIEnv *env, jobject object);
+  void Register(Isolate *isolate, const char *name, Local<Object> object);
   // void invoke();
 private:
   static void GetClassName(const FunctionCallbackInfo<v8::Value>& args);

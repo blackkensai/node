@@ -900,6 +900,7 @@
         'OBJ_PATH': '<(OBJ_DIR)/<(node_lib_target_name)/src',
         'OBJ_GEN_PATH': '<(OBJ_DIR)/<(node_lib_target_name)/gen',
         'OBJ_TRACING_PATH': '<(OBJ_DIR)/<(node_lib_target_name)/src/tracing',
+        'OBJ_ANDROID_PATH': '<(OBJ_DIR)/<(node_lib_target_name)/src/android',
         'OBJ_SUFFIX': 'o',
         'OBJ_SEPARATOR': '/',
         'conditions': [
@@ -974,6 +975,9 @@
         '<(OBJ_TRACING_PATH)<(OBJ_SEPARATOR)node_trace_writer.<(OBJ_SUFFIX)',
         '<(OBJ_TRACING_PATH)<(OBJ_SEPARATOR)trace_event.<(OBJ_SUFFIX)',
         '<(OBJ_GEN_PATH)<(OBJ_SEPARATOR)node_javascript.<(OBJ_SUFFIX)',
+        '<(OBJ_ANDROID_PATH)<(OBJ_SEPARATOR)node-embed-test.<(OBJ_SUFFIX)',
+        '<(OBJ_ANDROID_PATH)<(OBJ_SEPARATOR)node-android.<(OBJ_SUFFIX)',
+        '<(OBJ_ANDROID_PATH)<(OBJ_SEPARATOR)node-jni-wrapper.<(OBJ_SUFFIX)',
       ],
 
       'conditions': [
