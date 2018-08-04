@@ -26,7 +26,8 @@ Local<Object> JniWrapper::CreateJSObject(Isolate *isolate, JNIEnv *env,
 }
 
 void JniWrapper::Register(Isolate *isolate, const char *name, Local<Object> object) {
-
+  isolate->GetCurrentContext()->Global()->Set(String::NewFromUtf8(isolate, name, NewStringType::kNormal)
+               .ToLocalChecked(), object);
 }
 
 void JniWrapper::GetClassName(const FunctionCallbackInfo<v8::Value> &args) {

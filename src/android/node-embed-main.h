@@ -2,6 +2,8 @@
 // #include "v8.h"
 // #include "node.h"
 #include "node-jni-wrapper.h"
+#include "node-embed.h"
+#include "node-android.h"
 
 // extern int v8_thread_pool_size;
 extern void _register_embedtest();
@@ -9,7 +11,7 @@ extern void _register_android();
 // extern void PlatformInit();
 using namespace node;
 
-NODE_EXTERN int node_embed_execute(const char * script) {
+extern "C" int node_embed_execute(const char * script) {
   // atexit([]() { uv_tty_reset_mode(); });
   int argc = 2;
   const char ** argv = new const char*[2];
@@ -54,7 +56,7 @@ NODE_EXTERN int node_embed_execute(const char * script) {
   return exit_code;
 }
 
-NODE_EXTERN int node_embed_execute_with(const char * script, JNIEnv *env, const char *name, jobject object) {
+extern "C" int node_embed_execute_with(const char * script, JNIEnv *env, jobject object) {
   // atexit([]() { uv_tty_reset_mode(); });
   int argc = 2;
   const char ** argv = new const char*[2];
@@ -74,6 +76,7 @@ NODE_EXTERN int node_embed_execute_with(const char * script, JNIEnv *env, const 
   V(embedtest);
   V(android);
 #undef V
+  node::android::SaveJniObject(env, object);
   // _register_atest();
 
   v8_platform.Initialize(v8_thread_pool_size, uv_default_loop());

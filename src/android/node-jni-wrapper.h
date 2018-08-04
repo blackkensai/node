@@ -1,3 +1,6 @@
+#ifndef SRC_NODE_JNI_WRAPPER_H_
+#define SRC_NODE_JNI_WRAPPER_H_
+
 #include "jni.h"
 #include "node-android.h"
 #include "node.h"
@@ -33,3 +36,5 @@ private:
 
 } // namespace android
 } // namespace node
+
+#endif

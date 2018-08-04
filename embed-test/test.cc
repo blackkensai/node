@@ -1,6 +1,6 @@
 // #include "node.h"
 #include "node_api.h"
-int node_embed_execute(const char * script);
+#include "node-embed.h"
 
 int main(int argc, char **argv) {
     // using namespace node;
