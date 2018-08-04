@@ -15,7 +15,8 @@ Local<Object> JniWrapper::CreateJSObject(Isolate *isolate, JNIEnv *env,
   // TODO primitive types
   JniWrapper *wrapper = new JniWrapper(isolate, env, object);
   Local<ObjectTemplate> tpl = v8::ObjectTemplate::New(isolate);
-  // TODO methods
+  // TODO methods & fields
+  tpl->SetInternalFieldCount(1);
   tpl->Set(String::NewFromUtf8(isolate, "getClass", NewStringType::kNormal)
                .ToLocalChecked(),
            FunctionTemplate::New(isolate, GetClassName));
