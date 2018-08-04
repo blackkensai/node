@@ -1,3 +1,5 @@
+package pkg;
+
 public class Test {
 
     // --- Native methods

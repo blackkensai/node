@@ -17,11 +17,14 @@ Local<Object> JniWrapper::CreateJSObject(Isolate *isolate, JNIEnv *env,
   Local<ObjectTemplate> tpl = v8::ObjectTemplate::New(isolate);
   // TODO methods & fields
   tpl->SetInternalFieldCount(1);
-  tpl->Set(String::NewFromUtf8(isolate, "getClass", NewStringType::kNormal)
-               .ToLocalChecked(),
-           FunctionTemplate::New(isolate, GetClassName));
+  // tpl->Set(String::NewFromUtf8(isolate, "getClass", NewStringType::kNormal)
+  //              .ToLocalChecked(),
+  //          FunctionTemplate::New(isolate, GetClassName));
 
   Local<Object> v8object = tpl->NewInstance();
+  v8object->Set(String::NewFromUtf8(isolate, "getClass", NewStringType::kNormal)
+               .ToLocalChecked(),
+           FunctionTemplate::New(isolate, GetClassName)->GetFunction());
   wrapper->Wrap(v8object);
   return v8object;
 }

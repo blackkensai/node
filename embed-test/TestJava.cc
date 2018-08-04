@@ -1,7 +1,7 @@
-#include "Test.h"
+#include "pkg_Test.h"
 #include "node-embed.h"
 
-JNIEXPORT void JNICALL Java_Test_node_1embed_1execute_1with(JNIEnv *env,
+JNIEXPORT void JNICALL Java_pkg_Test_node_1embed_1execute_1with(JNIEnv *env,
                                                             jobject o,
                                                             jstring script,
                                                             jobject object) {
