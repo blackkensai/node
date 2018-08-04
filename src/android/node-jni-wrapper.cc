@@ -25,6 +25,10 @@ Local<Object> JniWrapper::CreateJSObject(Isolate *isolate, JNIEnv *env,
   return v8object;
 }
 
+void JniWrapper::Register(Isolate *isolate, const char *name, Local<Object> object) {
+
+}
+
 void JniWrapper::GetClassName(const FunctionCallbackInfo<v8::Value> &args) {
   Isolate *isolate = args.GetIsolate();
   JniWrapper *wrapper = ObjectWrap::Unwrap<JniWrapper>(args.Holder());
