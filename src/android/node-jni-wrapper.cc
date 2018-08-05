@@ -1,5 +1,6 @@
 #include "node-jni-wrapper.h"
 
+#include <string.h>
 #include <iostream>
 using namespace std;
 
@@ -39,23 +40,90 @@ Local<Object> JniWrapper::CreateJSObject(Isolate *isolate, JNIEnv *env,
   return v8object;
 }
 
+void PrintMethods(JNIEnv *env, jobject object) {
+  jclass objcls = env->GetObjectClass(object);
+  jmethodID mid = env->GetMethodID(objcls, "getClass", "()Ljava/lang/Class;");
+  jobject clsObj = env->CallObjectMethod(object, mid);
+  cout << " ===============================" << endl;
+  jclass cls = env->GetObjectClass(clsObj);
+  mid = env->GetMethodID(cls, "getDeclaredMethods",
+                         "()[Ljava/lang/reflect/Method;");
+  jobjectArray array = (jobjectArray)env->CallObjectMethod(clsObj, mid);
+  for (int i = 0; i < env->GetArrayLength(array); i++) {
+    jobject methodobj = env->GetObjectArrayElement(array, i);
+    jclass methodcls = env->GetObjectClass(methodobj);
+    const char *str = NULL;
+
+    mid = env->GetMethodID(methodcls, "getName", "()Ljava/lang/String;");
+    jstring name = (jstring)env->CallObjectMethod(methodobj, mid);
+    str = env->GetStringUTFChars(name, NULL);
+    cout << "  >> " << str << endl;
+    env->ReleaseStringUTFChars(name, str);
+  }
+}
+
+jmethodID GetGenericSignatureMethod(JNIEnv *env, jobject object) {  // method
+  jclass objcls = env->GetObjectClass(object);  // class<method>
+  jmethodID mid = env->GetMethodID(objcls, "getClass", "()Ljava/lang/Class;");
+  jobject clsObj =
+      env->CallObjectMethod(object, mid);  // class<method> (object)
+  cout << " ===============================" << endl;
+  jclass cls = env->GetObjectClass(clsObj); // class of class
+  mid = env->GetMethodID(cls, "getDeclaredMethods",
+                         "()[Ljava/lang/reflect/Method;");
+  jobjectArray array = (jobjectArray)env->CallObjectMethod(clsObj, mid);
+  for (int i = 0; i < env->GetArrayLength(array); i++) {
+    jobject methodobj = env->GetObjectArrayElement(array, i);
+    jclass methodcls = env->GetObjectClass(methodobj);
+    const char *str = NULL;
+
+    mid = env->GetMethodID(methodcls, "getName", "()Ljava/lang/String;");
+    jstring name = (jstring)env->CallObjectMethod(methodobj, mid);
+    str = env->GetStringUTFChars(name, NULL);
+    cout << "  compare " << str << endl;
+    if (strcmp(str, "getGenericSignature") == 0) {
+      env->ReleaseStringUTFChars(name, str);
+      cout<<" xxx "<<env->FromReflectedMethod(methodobj)<< endl;
+      return env->FromReflectedMethod(methodobj);
+    }
+    env->ReleaseStringUTFChars(name, str);
+  }
+  return NULL;
+}
+
 void JniWrapper::CreateObjectMethods(Isolate *isolate, Local<Object> v8object,
                                      JNIEnv *env, jobject object) {
   jclass objcls = env->GetObjectClass(object);
   jmethodID mid = env->GetMethodID(objcls, "getClass", "()Ljava/lang/Class;");
   jobject clsObj = env->CallObjectMethod(object, mid);
   jclass cls = env->GetObjectClass(clsObj);
-  mid = env->GetMethodID(cls, "getMethods", "()[Ljava/lang/reflect/Method;");
+  mid = env->GetMethodID(cls, "getDeclaredMethods",
+                         "()[Ljava/lang/reflect/Method;");
   jobjectArray array = (jobjectArray)env->CallObjectMethod(clsObj, mid);
-  cout << " ================ " << endl;
   for (int i = 0; i < env->GetArrayLength(array); i++) {
     jobject methodobj = env->GetObjectArrayElement(array, i);
     jclass methodcls = env->GetObjectClass(methodobj);
+    const char *str = NULL;
+    // PrintMethods(env, methodobj);
+
     mid = env->GetMethodID(methodcls, "getName", "()Ljava/lang/String;");
     jstring name = (jstring)env->CallObjectMethod(methodobj, mid);
-    const char *str = env->GetStringUTFChars(name, NULL);
+    str = env->GetStringUTFChars(name, NULL);
     cout << "  >> " << str << endl;
     env->ReleaseStringUTFChars(name, str);
+
+     mid = env->GetMethodID(methodcls, "getGenericSignature", "()Ljava/lang/String;");
+    cout << mid << endl;
+    name = (jstring)env->CallObjectMethod(methodobj, mid);
+    cout << "   name   "<< name << endl;
+
+    mid = GetGenericSignatureMethod(env, methodobj);
+    cout << mid << endl;
+    jstring signature = (jstring)env->CallObjectMethod(methodobj, mid);
+    cout << "  >> " << signature << endl;
+    str = env->GetStringUTFChars(signature, NULL);
+    cout << "  >> " << str << endl;
+    env->ReleaseStringUTFChars(signature, str);
   }
 }
 
